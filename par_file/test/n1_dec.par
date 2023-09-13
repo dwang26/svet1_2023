@@ -1,0 +1,3 @@
+-i::h265 ./video/1080p.h265 -join -hw  -o::sink -vpp_comp_dst_x 0 -vpp_comp_dst_y 0 -vpp_comp_dst_w 1920 -vpp_comp_dst_h 1080 -ext_allocator
+
+-fake_sink 1 -async 4 -join -i::source -ext_allocator -o::h264 /tmp/fake_file.h264 

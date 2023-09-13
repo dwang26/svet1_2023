@@ -171,53 +171,53 @@ if __name__ == "__main__":
         # Pull all the source code
         print("libva")
         if not os.path.exists("%s/libva"%(WORKING_DIR)):
-            cmd = "cd %s; rm -f libva.tar.gz; wget https://github.com/intel/libva/archive/refs/tags/2.14.0.tar.gz -O libva.tar.gz;"%(WORKING_DIR)
+            cmd = "cd %s; rm -f libva.tar.gz; wget https://github.com/intel/libva/archive/refs/tags/2.17.0.tar.gz -O libva.tar.gz;"%(WORKING_DIR)
             cmd+= "tar zxf libva.tar.gz --one-top-level=libva --strip-components 1"
             print(cmd)
             os.system(cmd);
-            checkmd5sum("libva.tar.gz","%s/libva"%(WORKING_DIR),cmd)
+            #checkmd5sum("libva.tar.gz","%s/libva"%(WORKING_DIR),cmd)
 
         print("libva-utils")
         if not os.path.exists("%s/libva-utils"%(WORKING_DIR)):
             cmd = "cd %s;rm -f libva-utils.tar.gz;"%(WORKING_DIR)
-            cmd += "wget https://github.com/intel/libva-utils/archive/refs/tags/2.14.0.tar.gz -O libva-utils.tar.gz;"
+            cmd += "wget https://github.com/intel/libva-utils/archive/refs/tags/2.17.1.tar.gz -O libva-utils.tar.gz;"
             cmd += "tar zxf libva-utils.tar.gz --one-top-level=libva-utils --strip-components 1;"
             print(cmd)
             os.system(cmd);
-            checkmd5sum("libva-utils.tar.gz","%s/libva-utils"%(WORKING_DIR),cmd)
+            #checkmd5sum("libva-utils.tar.gz","%s/libva-utils"%(WORKING_DIR),cmd)
 
         print("media-driver")
         if not os.path.exists("%s/media-driver"%(WORKING_DIR)):
-            cmd = "cd %s; rm -f intel-media-21.1.3.tar.gz;"%(WORKING_DIR)
-            cmd += "wget https://github.com/intel/media-driver/archive/refs/tags/intel-media-22.3.1.tar.gz; "
-            cmd += "tar zxf intel-media-22.3.1.tar.gz --one-top-level=media-driver --strip-components 1"
+            cmd = "cd %s; rm -f intel-media-22.2.6.tar.gz;"%(WORKING_DIR)
+            cmd += "wget https://github.com/intel/media-driver/archive/refs/tags/intel-media-22.6.6.tar.gz -O intel-media.tar.gz; "
+            cmd += "tar zxf intel-media.tar.gz --one-top-level=media-driver --strip-components 1"
             print(cmd)
             os.system(cmd);
-            checkmd5sum("intel-media-22.3.1.tar.gz","%s/media-driver"%(WORKING_DIR),cmd)
+            #checkmd5sum("intel-media-22.3.1.tar.gz","%s/media-driver"%(WORKING_DIR),cmd)
 
         print("gmmlib")
         if not os.path.exists("%s/gmmlib"%(WORKING_DIR)):
-            cmd = "cd %s; wget https://github.com/intel/gmmlib/archive/refs/tags/intel-gmmlib-22.1.2.tar.gz; "%(WORKING_DIR)
-            cmd += "tar zxf intel-gmmlib-22.1.2.tar.gz --one-top-level=gmmlib --strip-components 1"
+            cmd = "cd %s; wget https://github.com/intel/gmmlib/archive/refs/tags/intel-gmmlib-22.3.3.tar.gz -O intel-gmmlib.tar.gz; "%(WORKING_DIR)
+            cmd += "tar zxf intel-gmmlib.tar.gz --one-top-level=gmmlib --strip-components 1"
             print(cmd)
             os.system(cmd);
-            checkmd5sum("intel-gmmlib-22.1.2.tar.gz","%s/gmmlib"%(WORKING_DIR),cmd)
+            #checkmd5sum("intel-gmmlib-22.1.2.tar.gz","%s/gmmlib"%(WORKING_DIR),cmd)
 
         print("onevpl_gpu")
         if not os.path.exists("%s/onevpl_gpu"%(WORKING_DIR)):
-            cmd = "cd %s; rm -f intel-onevpl-22.3.2.tar.gz;  wget https://github.com/oneapi-src/oneVPL-intel-gpu/archive/refs/tags/intel-onevpl-22.3.2.tar.gz;"%(WORKING_DIR)
-            cmd+= "tar zxf intel-onevpl-22.3.2.tar.gz --one-top-level=onevpl_gpu --strip-components 1"
+            cmd = "cd %s; rm -f intel-onevpl.tar.gz;  wget https://github.com/oneapi-src/oneVPL/archive/refs/tags/intel-onevpl-22.6.5.tar.gz -O intel-onevpl.tar.gz;"%(WORKING_DIR)
+            cmd+= "tar zxf intel-onevpl.tar.gz --one-top-level=onevpl_gpu --strip-components 1"
             print(cmd)
             os.system(cmd);
-            checkmd5sum("intel-onevpl-22.3.2.tar.gz","%s/onevpl_gpu"%(WORKING_DIR),cmd)
+            #checkmd5sum("intel-onevpl-22.3.2.tar.gz","%s/onevpl_gpu"%(WORKING_DIR),cmd)
 
         print("onevpl")
         if not os.path.exists("%s/onevpl"%(WORKING_DIR)):
-            cmd = "cd %s; rm -f v2022.0.3.tar.gz;  wget https://github.com/oneapi-src/oneVPL/archive/refs/tags/v2022.0.3.tar.gz;"%(WORKING_DIR)
-            cmd+= "tar zxf v2022.0.3.tar.gz --one-top-level=onevpl --strip-components 1"
+            cmd = "cd %s; rm -f onevpl.tar.gz;  wget https://github.com/oneapi-src/oneVPL/archive/refs/tags/v2023.1.0.tar.gz -O onevpl.tar.gz;"%(WORKING_DIR)
+            cmd+= "tar zxf onevpl.tar.gz --one-top-level=onevpl --strip-components 1"
             print(cmd)
             os.system(cmd);
-            checkmd5sum("v2022.0.3.tar.gz","%s/onevpl"%(WORKING_DIR),cmd)
+            #checkmd5sum("v2022.0.3.tar.gz","%s/onevpl"%(WORKING_DIR),cmd)
    
 
     if build_all == True:

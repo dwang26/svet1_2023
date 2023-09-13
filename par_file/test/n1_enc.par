@@ -1,0 +1,3 @@
+-i::h265 rtsp://10.67.107.115:1554/simu0000 -join -hw -async 1  -o::sink -vpp_comp_dst_x 0 -vpp_comp_dst_y 0 -vpp_comp_dst_w 1920 -vpp_comp_dst_h 1080 -ext_allocator
+
+-vpp_comp 1 -w 1920 -h 1080 -async 4 -threads 2 -join -hw  -threads 3 -i::source -ext_allocator -ec::nv12 -o::h264 comp_out_1080p.h264 
