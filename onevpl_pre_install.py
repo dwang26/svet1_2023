@@ -205,8 +205,8 @@ if __name__ == "__main__":
 
         print("onevpl_gpu")
         if not os.path.exists("%s/onevpl_gpu"%(WORKING_DIR)):
-            cmd = "cd %s; rm -f intel-onevpl.tar.gz;  wget https://github.com/oneapi-src/oneVPL/archive/refs/tags/intel-onevpl-22.6.5.tar.gz -O intel-onevpl.tar.gz;"%(WORKING_DIR)
-            cmd+= "tar zxf intel-onevpl.tar.gz --one-top-level=onevpl_gpu --strip-components 1"
+            cmd = "cd %s; rm -f onevpl_gpu.tar.gz; wget https://github.com/oneapi-src/oneVPL-intel-gpu/archive/refs/tags/intel-onevpl-22.6.5.tar.gz   -O intel-onevpl.tar.gz;"%(WORKING_DIR)
+            cmd+= "tar zxf onevpl_gpu.tar.gz --one-top-level=onevpl_gpu --strip-components 1"
             print(cmd)
             os.system(cmd);
             #checkmd5sum("intel-onevpl-22.3.2.tar.gz","%s/onevpl_gpu"%(WORKING_DIR),cmd)

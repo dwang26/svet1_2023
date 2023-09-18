@@ -43,6 +43,8 @@ or https://software.intel.com/en-us/media-client-solutions-support.
 #include <future>
 #include <chrono>
 #include <mutex>
+#include <chrono>
+#include <iomanip>
 
 #include "sample_defs.h"
 #include "sample_utils.h"
@@ -1035,6 +1037,11 @@ namespace TranscodingSample
         int mNumSurf4Comp; //Number of input surfaces for N to 1 composition
         uint m_sinkNum;    //Number of sink sessions that consume the surface
         uint m_sourceNum;  //Number of source sessions that produce the surface
+
+        chrono::high_resolution_clock::time_point time1;
+        chrono::high_resolution_clock::time_point time2;
+        bool isMark = true;
+
     private:
         DISALLOW_COPY_AND_ASSIGN(CTranscodingPipeline);
 

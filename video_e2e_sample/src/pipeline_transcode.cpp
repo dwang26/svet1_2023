@@ -31,6 +31,9 @@ or https://software.intel.com/en-us/media-client-solutions-support.
 #include <algorithm>
 #include <cstring>
 #include <assert.h>
+#include <chrono>
+#include <iostream>
+#include <iomanip>
 
 //#include "plugin_loader.h"
 #include "parameters_dumper.h"
@@ -50,7 +53,6 @@ or https://software.intel.com/en-us/media-client-solutions-support.
 
 using namespace TranscodingSample;
 using namespace std;
-
 #ifdef ENABLE_MCTF
 namespace TranscodingSample
 {
@@ -80,6 +82,7 @@ namespace TranscodingSample
     }
 }
 #endif
+
 
 // set structure to define values
 sInputParams::sInputParams() : __sInputParams()
@@ -503,6 +506,10 @@ mfxStatus CTranscodingPipeline::DecodeOneFrame(ExtendedSurface *pExtSurface)
         else if (MFX_ERR_MORE_DATA == sts)
         {
             sts = m_pBSProcessor->GetInputBitstream(&m_pmfxBS); // read more data to input bit stream
+            if (isMark) {
+                time1 = chrono::high_resolution_clock::now();
+                isMark = false;
+            }
             MSDK_BREAK_ON_ERROR(sts);
         }
         else if (MFX_ERR_MORE_SURFACE == sts)
@@ -522,7 +529,19 @@ mfxStatus CTranscodingPipeline::DecodeOneFrame(ExtendedSurface *pExtSurface)
             MSDK_CHECK_POINTER_SAFE(pmfxSurface, MFX_ERR_MEMORY_ALLOC, msdk_printf(MSDK_STRING("ERROR: No free surfaces in decoder pool (during long period)\n"))); // return an error if a free surface wasn't found
         }
 
+        m_pmfxBS->DataFlag = 1;
+        //std::cout<<"stream offset "<< m_pmfxBS->DataOffset<<" length "<<m_pmfxBS->DataLength<<std::endl;
         sts = m_pmfxDEC->DecodeFrameAsync(m_pmfxBS, pmfxSurface, &pExtSurface->pSurface, &pExtSurface->Syncp);
+        if (sts == 0 &&  pExtSurface->Syncp)
+        {
+            sts = m_pmfxSession->SyncOperation(pExtSurface->Syncp, MSDK_WAIT_INTERVAL);
+            time2 = chrono::high_resolution_clock::now();
+            chrono::duration<double> diff = time2 - time1;
+            std::cout<<"cost time  "<<std::setprecision(2) << std::setfill('0') <<diff.count() * 1000.0<<std::endl;
+            isMark = true;
+            MSDK_CHECK_STATUS(sts, "m_pmfxSession->SyncOperation failed");
+            pExtSurface->Syncp = NULL;
+        }
 
         if ( (MFX_WRN_DEVICE_BUSY == sts) &&
              (DevBusyTimer.GetTime() > MSDK_WAIT_INTERVAL/1000) )
@@ -2508,6 +2527,8 @@ mfxStatus CTranscodingPipeline::InitDecMfxParams(sInputParams *pInParams)
         m_mfxDecParams.mfx.FrameInfo.FourCC=pInParams->DecoderFourCC;
         m_mfxDecParams.mfx.FrameInfo.ChromaFormat=FourCCToChroma(pInParams->DecoderFourCC);
     }
+    m_mfxDecParams.mfx.DecodedOrder = 1;
+    printf("%s set decode order to 1\n", __func__);
 #if MFX_VERSION >= 1022
     /* SFC usage if enabled */
     if ((pInParams->bDecoderPostProcessing) &&
